@@ -2,6 +2,7 @@
   <library name="mysql-connector-java-8.0.19">
     <CLASSES>
       <root url="jar://$USER_HOME$/Downloads/mysql-connector-java-8.0.19/mysql-connector-java-8.0.19.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/spring-jdbc-3.0.7.RELEASE.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
