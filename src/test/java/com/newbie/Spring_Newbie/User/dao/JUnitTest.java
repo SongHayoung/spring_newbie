@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration(locations = "/junit.xml")
 public class JUnitTest {
     //static JUnitTest testobject;
     @Autowired
