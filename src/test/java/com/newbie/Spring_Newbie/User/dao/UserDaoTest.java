@@ -15,15 +15,15 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations="/test-applicationContext.xml")
-//@DirtiesContext
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="/test-applicationContext.xml")
+@DirtiesContext
 public class UserDaoTest {
-    //private ApplicationContext context;
+    @Autowired
+    ApplicationContext context;
     //@Autowired
     private UserDao dao;
     private User user1;
@@ -32,14 +32,14 @@ public class UserDaoTest {
 
     @Before
     public void setUp(){
-        dao = new UserDao();
-        DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/Spring_Newbie?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","admin",true);
-        dao.setDataSource(dataSource);
+        //dao = new UserDao();
+        //DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/Spring_Newbie?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","admin",true);
+        //dao.setDataSource(dataSource);
         /*
         System.out.println(this.context);
         System.out.println(this);
-        this.dao = context.getBean("userDao",UserDao.class);
         */
+        this.dao = context.getBean("userDao",UserDao.class);
         this.user1 = new User("user1","user1","pass1");
         this.user2 = new User("user2","user2","pass2");
         this.user3 = new User("user3","user3","pass3");
