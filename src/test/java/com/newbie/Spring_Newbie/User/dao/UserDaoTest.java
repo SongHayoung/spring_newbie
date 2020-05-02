@@ -17,10 +17,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/test-applicationContext.xml")
-@DirtiesContext
+//@DirtiesContext
 public class UserDaoTest {
     @Autowired
     ApplicationContext context;
@@ -32,18 +33,12 @@ public class UserDaoTest {
 
     @Before
     public void setUp(){
-        //dao = new UserDao();
-        //DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/Spring_Newbie?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","admin",true);
-        //dao.setDataSource(dataSource);
-        /*
-        System.out.println(this.context);
-        System.out.println(this);
-        */
         this.dao = context.getBean("userDao",UserDao.class);
         this.user1 = new User("user1","user1","pass1");
         this.user2 = new User("user2","user2","pass2");
         this.user3 = new User("user3","user3","pass3");
     }
+
     @Test
     public void andAndGet() throws SQLException {
         dao.deleteAll();
@@ -60,6 +55,7 @@ public class UserDaoTest {
         assertThat(userget2.getName(),is(user2.getName()));
         assertThat(userget2.getPassword(),is(user2.getPassword()));
     }
+
     @Test
     public void count() throws SQLException{
         dao.deleteAll();
@@ -74,6 +70,7 @@ public class UserDaoTest {
         dao.add(user3);
         assertThat(dao.getCount(),is(3));
     }
+
     @Test(expected=EmptyResultDataAccessException.class)
     public void getUserFailure() throws SQLException{
         dao.deleteAll();
@@ -82,6 +79,37 @@ public class UserDaoTest {
         dao.get("unknown_id");
     }
 
+    @Test
+    public void getAll() throws SQLException{
+        dao.deleteAll();
+
+        List<User> users0 = dao.getAll();
+        assertThat(users0.size(), is(0));
+
+        dao.add(user1);
+        List<User> users1 = dao.getAll();
+        assertThat(users1.size(),is(1));
+        checkSameUser(user1,users1.get(0));
+
+        dao.add(user2);
+        List<User> users2 = dao.getAll();
+        assertThat(users2.size(), is(2));
+        checkSameUser(user1,users2.get(0));
+        checkSameUser(user2,users2.get(1));
+
+        dao.add(user3);
+        List<User> users3 = dao.getAll();
+        assertThat(users3.size(), is(3));
+        checkSameUser(user1,users3.get(0));
+        checkSameUser(user2,users3.get(1));
+        checkSameUser(user3,users3.get(2));
+    }
+
+    private void checkSameUser(User user1, User user2){
+        assertThat(user1.getID(), is(user2.getID()));
+        assertThat(user1.getName(), is(user2.getName()));
+        assertThat(user1.getPassword(), is(user2.getPassword()));
+    }
     public static void main(String[] args) {
         JUnitCore.main("com.newbie.Spring_Newbie.User.dao.UserDaoTest");
     }

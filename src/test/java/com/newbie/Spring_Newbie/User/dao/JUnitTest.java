@@ -23,7 +23,6 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/junit.xml")
 public class JUnitTest {
-    //static JUnitTest testobject;
     @Autowired
     ApplicationContext context;
     static Set<JUnitTest> testobjects = new HashSet<JUnitTest>();
@@ -31,8 +30,6 @@ public class JUnitTest {
 
     @Test
     public void test1(){
-        //assertThat(this,is(not(sameInstance(testobject))));
-        //testobject = this;
         assertThat(testobjects, not(hasItem(this)));
         testobjects.add(this);
 
@@ -42,8 +39,6 @@ public class JUnitTest {
 
     @Test
     public void test2(){
-        //assertThat(this,is(not(sameInstance(testobject))));
-        //testobject = this;
         assertThat(testobjects,not(hasItem(this)));
         testobjects.add(this);
 
@@ -53,8 +48,6 @@ public class JUnitTest {
 
     @Test
     public void test3(){
-        //assertThat(this,is(not(sameInstance(testobject))));
-        //testobject = this;
         assertThat(testobjects,not(hasItem(this)));
         testobjects.add(this);
 
