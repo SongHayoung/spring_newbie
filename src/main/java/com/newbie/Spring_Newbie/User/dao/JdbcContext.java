@@ -1,16 +1,10 @@
 package com.newbie.Spring_Newbie.User.dao;
 
 import javax.sql.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class JdbcContext {
     private DataSource dataSource;
-    public void setDataSource(DataSource dataSource){
-        this.dataSource = dataSource;
-    }
-
     public void workWithStatementStrategy(StatementStrategy stmt) throws SQLException{
         Connection c = null;
         PreparedStatement ps = null;
