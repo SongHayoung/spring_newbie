@@ -4,7 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="userDao" class="com.newbie.Spring_Newbie.User.dao.UserDao">
+    <bean id="userService" class="com.newbie.Spring_Newbie.User.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="userDao" class="com.newbie.Spring_Newbie.User.dao.UserDaoJdbc">
         <property name="dataSource" ref="dataSource"/>
         <!--<property name="jdbcContext" ref="jdbcContext"/>-->
     </bean>
