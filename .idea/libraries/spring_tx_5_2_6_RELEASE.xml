@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="spring-dao-2.0.3">
+  <library name="spring-tx-5.2.6.RELEASE">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/spring-dao-2.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-tx-5.2.6.RELEASE.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

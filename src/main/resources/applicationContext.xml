@@ -11,7 +11,7 @@
         <property name="username" value="root"/>
         <property name="password" value="admin"/>
     </bean>
-    <bean id="userDao" class="com.newbie.Spring_Newbie.User.dao.UserDao">
+    <bean id="userDao" class="com.newbie.Spring_Newbie.User.dao.UserDaoJdbc">
         <property name="dataSource" ref="dataSource"/>
         <property name="jdbcContext" ref="jdbcContext"/>
     </bean>
