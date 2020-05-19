@@ -17,6 +17,7 @@ public class UserDaoJdbc implements UserDao{
             user.setID(resultSet.getString("id"));
             user.setName(resultSet.getString("name"));
             user.setPassword(resultSet.getString("password"));
+            user.setEmail(resultSet.getString("email"));
             user.setLevel(Level.valueOf(resultSet.getInt("Level")));
             user.setLogin(resultSet.getInt("Login"));
             user.setRecommend(resultSet.getInt("Recommend"));
@@ -26,8 +27,8 @@ public class UserDaoJdbc implements UserDao{
     private JdbcTemplate jdbcTemplate;
 
     public void add(final User user) {
-        this.jdbcTemplate.update("insert into users(id, name, password, Level, Login, Recommend) values(?,?,?,?,?,?)"
-                                        , user.getID(), user.getName(), user.getPassword()
+        this.jdbcTemplate.update("insert into users(id, name, password, email, Level, Login, Recommend) values(?,?,?,?,?,?,?)"
+                                        , user.getID(), user.getName(), user.getPassword(), user.getEmail()
                                         , user.getLevel().intValue(), user.getLogin(), user.getRecommend());
     }
 
@@ -41,7 +42,7 @@ public class UserDaoJdbc implements UserDao{
     }
 
     public int getCount() {
-        return this.jdbcTemplate.queryForInt("select count(*) from users");
+        return this.jdbcTemplate.queryForObject("select count(*) from users", Integer.class);
     }
 
     public void setDataSource(DataSource dataSource) {
@@ -53,6 +54,6 @@ public class UserDaoJdbc implements UserDao{
     }
 
     public void update(User user){
-        this.jdbcTemplate.update("update users set name = ? , password = ? , level = ?, login = ?, recommend = ? where id = ? ",  user.getName(), user.getPassword(), user.getLevel().intValue(), user.getLogin(), user.getRecommend(), user.getID());
+        this.jdbcTemplate.update("update users set name = ? , password = ? , level = ?, email = ?, login = ?, recommend = ? where id = ? ",  user.getName(), user.getPassword(), user.getLevel().intValue(), user.getEmail(), user.getLogin(), user.getRecommend(), user.getID());
     }
 }

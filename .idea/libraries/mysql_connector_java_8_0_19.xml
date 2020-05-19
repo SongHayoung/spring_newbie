@@ -3,10 +3,14 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/mysql-connector-java-8.0.19.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-core-5.2.5.RELEASE.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/spring-jdbc-3.0.7.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-dao-2.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-expression-5.2.6.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-test-5.2.5.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-tx-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.mail-1.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-context-support-5.2.6.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/activation-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/spring-jdbc-3.0.7.RELEASE.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
