@@ -39,9 +39,9 @@ public class UserDaoTest {
     @Before
     public void setUp(){
         this.dao = context.getBean("userDao", UserDao.class);
-        this.user1 = new User("user1","user1","pass1", Level.BASIC, 1, 0);
-        this.user2 = new User("user2","user2","pass2", Level.SILVER, 55, 10);
-        this.user3 = new User("user3","user3","pass3", Level.GOLD, 100, 40);
+        this.user1 = new User("user1","user1","pass1", "user1@ksug.org", Level.BASIC, 1, 0);
+        this.user2 = new User("user2","user2","pass2", "user2@ksug.org", Level.SILVER, 55, 10);
+        this.user3 = new User("user3","user3","pass3", "user3@ksug.org", Level.GOLD, 100, 40);
     }
 
     @Test
