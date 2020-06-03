@@ -1,6 +1,5 @@
 package com.newbie.Spring_Newbie.User.dao;
 
-import com.mysql.cj.result.Row;
 import com.newbie.Spring_Newbie.User.domain.Level;
 import com.newbie.Spring_Newbie.User.domain.User;
 import org.springframework.jdbc.core.JdbcTemplate;
