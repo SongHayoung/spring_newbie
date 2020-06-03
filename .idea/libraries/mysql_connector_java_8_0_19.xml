@@ -11,8 +11,11 @@
       <root url="jar://$PROJECT_DIR$/lib/spring-context-support-5.2.6.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/activation-1.1.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-jdbc-3.0.7.RELEASE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mockito-all-1.10.19.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/mockito-all-1.10.19.jar!/" />
+    </SOURCES>
   </library>
 </component>
