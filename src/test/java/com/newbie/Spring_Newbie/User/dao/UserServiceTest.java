@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mail.MailException;
@@ -38,10 +39,10 @@ import static org.springframework.test.util.AssertionErrors.fail;
 public class UserServiceTest {
     @Autowired ApplicationContext context;
     @Autowired UserService userService;
+    @Autowired UserService testUserService;
     @Autowired UserDao userDao;
     @Autowired PlatformTransactionManager transactionManager;
     @Autowired MailSender mailSender;
-    @Autowired UserServiceImpl userServiceImpl;
     List<User> users;
 
     @Before
@@ -123,26 +124,22 @@ public class UserServiceTest {
     }
 
     @Test
-    @DirtiesContext
     public void upgradeAllOrNothing() throws Exception{
-        TestUserService testUserService = new TestUserService(users.get(3).getID());
-        testUserService.setUserDao(userDao);
-        testUserService.setMailSender(mailSender);
-
-        TxProxyFactoryBean txProxyFactoryBean = context.getBean("&userService", TxProxyFactoryBean.class);
-        txProxyFactoryBean.setTarget(testUserService);
-        UserService txUserService = (UserService) txProxyFactoryBean.getObject();
-
         userDao.deleteAll();
         for(User user : users) userDao.add(user);
 
         try{
-            txUserService.upgradeLevels();
+            this.testUserService.upgradeLevels();
             fail("TestUserServiceException expected");
         }
         catch(TestUserServiceException e){
         }
         checkLevel(users.get(1),false);
+    }
+
+    @Test
+    public void advisortAutoProxyCreator(){
+        assertThat(testUserService, is(java.lang.reflect.Proxy.class));
     }
 
     private void checkLevel(User user, boolean upgraded){
@@ -159,11 +156,8 @@ public class UserServiceTest {
         assertThat(updated.getID(), is(expectedId));
         assertThat(updated.getLevel(), is(expectedLevel));
     }
-    static class TestUserService extends UserServiceImpl{
-        private String id;
-        public TestUserService(String id){
-            this.id = id;
-        }
+    static class TestUserServiceImpl extends UserServiceImpl{
+        private String id = "user4";
 
         protected void upgradeLevel(User user){
             if(user.getID().equals(this.id)) throw new TestUserServiceException();

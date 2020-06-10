@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <bean id="userService" class="com.newbie.Spring_Newbie.User.service.TxProxyFactoryBean">
-        <property name="pattern" value="upgradeLevels" />
-        <property name="target" ref="userServiceImpl" />
-        <property name="transactionManager" ref="transactionManager" />
-        <property name="serviceInterface" value="com.newbie.Spring_Newbie.User.service.UserService" />
-    </bean>
-    <bean id="userServiceImpl" class="com.newbie.Spring_Newbie.User.service.UserServiceImpl">
-        <property name="userDao" ref="userDao"/>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+    <bean id="userService" class="com.newbie.Spring_Newbie.User.service.UserServiceImpl">
+        <property name="userDao" ref="userDao" />
         <property name="mailSender" ref="mailSender" />
     </bean>
+    <bean id="testUserService" class="com.newbie.Spring_Newbie.User.dao.UserServiceTest$TestUserServiceImpl"
+          parent="userService" />
     <bean id="mailSender" class="com.newbie.Spring_Newbie.User.service.DummyMailSender"/>
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -36,5 +36,11 @@
     <bean id="message" class="com.newbie.Spring_Newbie.User.Test.MessageFactoryBean">
         <property name="text" value="Factory Bean" />
     </bean>
+    <bean id="transactionAdvice" class="com.newbie.Spring_Newbie.User.service.TransactionAdvice">
+        <property name="transactionManager" ref="transactionManager" />
+    </bean>
+    <aop:config>
+        <aop:advisor advice-ref="transactionAdvice" pointcut="execution(* *..*ServiceImpl.upgrade*(..))" />
+    </aop:config>
 </beans>
 
