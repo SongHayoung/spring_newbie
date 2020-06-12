@@ -12,6 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,6 +20,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.sql.DataSource;
 
 import static com.newbie.Spring_Newbie.User.service.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
@@ -37,12 +41,12 @@ import static org.springframework.test.util.AssertionErrors.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/test-applicationContext.xml")
 public class UserServiceTest {
-    @Autowired ApplicationContext context;
     @Autowired UserService userService;
     @Autowired UserService testUserService;
     @Autowired UserDao userDao;
-    @Autowired PlatformTransactionManager transactionManager;
     @Autowired MailSender mailSender;
+    @Autowired PlatformTransactionManager transactionManager;
+    @Autowired ApplicationContext context;
     List<User> users;
 
     @Before
@@ -142,6 +146,19 @@ public class UserServiceTest {
         assertThat(testUserService, is(java.lang.reflect.Proxy.class));
     }
 
+    @Test(expected= TransientDataAccessResourceException.class)
+    public void readOnlyTransactionAttribute() {
+        testUserService.getAll();
+    }
+
+    @Test
+    @Transactional(propagation= Propagation.NEVER)
+    public void transactionSync() {
+        userService.deleteAll();
+        userService.add(users.get(0));
+        userService.add(users.get(1));
+    }
+
     private void checkLevel(User user, boolean upgraded){
         User userUpdate = userDao.get(user.getID());
         if(upgraded){
@@ -156,14 +173,21 @@ public class UserServiceTest {
         assertThat(updated.getID(), is(expectedId));
         assertThat(updated.getLevel(), is(expectedLevel));
     }
-    static class TestUserServiceImpl extends UserServiceImpl{
-        private String id = "user4";
 
-        protected void upgradeLevel(User user){
-            if(user.getID().equals(this.id)) throw new TestUserServiceException();
+    static class TestUserService extends UserServiceImpl {
+        private String id = "user4"; // users(3).getId()
+
+        protected void upgradeLevel(User user) {
+            if (user.getID().equals(this.id)) throw new TestUserServiceException();
             super.upgradeLevel(user);
         }
 
+        public List<User> getAll() {
+            for(User user : super.getAll()) {
+                super.update(user);
+            }
+            return null;
+        }
     }
 
     static class TestUserServiceException extends RuntimeException{}
