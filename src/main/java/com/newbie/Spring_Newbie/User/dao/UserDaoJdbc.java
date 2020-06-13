@@ -1,29 +1,32 @@
 package com.newbie.Spring_Newbie.User.dao;
 
+import com.newbie.Spring_Newbie.User.domain.Level;
+import com.newbie.Spring_Newbie.User.domain.User;
+import com.newbie.Spring_Newbie.User.sqlService.SqlService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import com.newbie.Spring_Newbie.User.domain.Level;
-import com.newbie.Spring_Newbie.User.domain.User;
-import com.newbie.Spring_Newbie.User.sqlService.SqlService;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-
+@Repository
 public class UserDaoJdbc implements UserDao {
+    @Autowired
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private JdbcTemplate jdbcTemplate;
 
-    private SqlService sqlService;
+    @Autowired private SqlService sqlService;
 
-    public void setSqlService(SqlService sqlService) {
+    /*public void setSqlService(SqlService sqlService) {
         this.sqlService = sqlService;
-    }
+    }*/
 
     private RowMapper<User> userMapper =
             new RowMapper<User>() {
@@ -70,6 +73,5 @@ public class UserDaoJdbc implements UserDao {
                 user.getName(), user.getPassword(), user.getEmail(),
                 user.getLevel().intValue(), user.getLogin(), user.getRecommend(),
                 user.getID());
-
     }
 }

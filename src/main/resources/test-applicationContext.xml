@@ -17,7 +17,7 @@
 						http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd ">
 
 
-    <tx:annotation-driven />
+    <!--
     <context:annotation-config />
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
@@ -26,38 +26,50 @@
         <property name="username" value="root"/>
         <property name="password" value="admin"/>
     </bean>
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
-    <bean id="userService" class="com.newbie.Spring_Newbie.User.service.UserServiceImpl">
-        <property name="userDao" ref="userDao" />
-        <property name="mailSender" ref="mailSender" />
-    </bean>
-    <bean id="testUserService" class="com.newbie.Spring_Newbie.User.dao.UserServiceTest$TestUserService"
-          parent="userService" />
-    <bean id="mailSender" class="com.newbie.Spring_Newbie.User.service.DummyMailSender"/>
+
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
+
     <bean id="userDao" class="com.newbie.Spring_Newbie.User.dao.UserDaoJdbc">
         <property name="dataSource" ref="dataSource"/>
         <property name="sqlService" ref="sqlService" />
     </bean>
+
+     <bean id="userService" class="com.newbie.Spring_Newbie.User.service.UserServiceImpl">
+        <property name="userDao" ref="userDao" />
+        <property name="mailSender" ref="mailSender" />
+    </bean>
+
+    <bean id="mailSender" class="com.newbie.Spring_Newbie.User.service.DummyMailSender"/>
+
     <bean id="sqlService" class="com.newbie.Spring_Newbie.User.sqlService.OxmSqlService">
         <property name="unmarshaller" ref="unmarshaller" />
         <property name="sqlmap" value="classpath:com/newbie/Spring_Newbie/User/dao/sqlmap.xml"/>
         <property name="sqlRegistry" ref="sqlRegistry"/>
     </bean>
+
     <bean id="sqlRegistry" class="com.newbie.Spring_Newbie.User.sqlService.EmbeddedDbSqlRegistry">
         <property name="dataSource" ref="embeddedDatabase"/>
     </bean>
+
     <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="contextPath" value="com.newbie.Spring_Newbie.User.sqlService.jaxb"/>
     </bean>
-    <bean id="message" class="com.newbie.Spring_Newbie.User.Test.MessageFactoryBean">
-        <property name="text" value="Factory Bean" />
-    </bean>
+
     <jdbc:embedded-database id="embeddedDatabase" type="HSQL">
         <jdbc:script location="classpath:com/newbie/Spring_Newbie/User/sqlService/sqlRegistrySchema.sql"/>
     </jdbc:embedded-database>
+
+    <bean id="testUserService" class="com.newbie.Spring_Newbie.User.dao.UserServiceTest$TestUserService"
+          parent="userService" />
+    <tx:annotation-driven />
+    -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+    <bean id="message" class="com.newbie.Spring_Newbie.User.Test.MessageFactoryBean">
+        <property name="text" value="Factory Bean" />
+    </bean>
     <tx:advice id="transactionAdvice">
         <tx:attributes>
             <tx:method name="get*" read-only="true" />

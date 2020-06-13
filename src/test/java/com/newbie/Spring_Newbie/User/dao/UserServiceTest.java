@@ -1,45 +1,41 @@
 package com.newbie.Spring_Newbie.User.dao;
 
+import com.TestApplicationContext;
 import com.newbie.Spring_Newbie.User.domain.Level;
 import com.newbie.Spring_Newbie.User.domain.User;
-import com.newbie.Spring_Newbie.User.service.*;
+import com.newbie.Spring_Newbie.User.service.TestUserServiceException;
+import com.newbie.Spring_Newbie.User.service.UserService;
+import com.newbie.Spring_Newbie.User.service.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
-
-import static com.newbie.Spring_Newbie.User.service.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
-import static com.newbie.Spring_Newbie.User.service.UserServiceImpl.MIN_RECCOMEND_FOR_GOLD;
-
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.newbie.Spring_Newbie.User.service.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
+import static com.newbie.Spring_Newbie.User.service.UserServiceImpl.MIN_RECCOMEND_FOR_GOLD;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="/test-applicationContext.xml")
+@ContextConfiguration(classes = TestApplicationContext.class)
 public class UserServiceTest {
     @Autowired UserService userService;
     @Autowired UserService testUserService;
@@ -173,8 +169,8 @@ public class UserServiceTest {
         assertThat(updated.getID(), is(expectedId));
         assertThat(updated.getLevel(), is(expectedLevel));
     }
-
-    static class TestUserService extends UserServiceImpl {
+/*
+    public static class TestUserService extends UserServiceImpl {
         private String id = "user4"; // users(3).getId()
 
         protected void upgradeLevel(User user) {
@@ -191,7 +187,7 @@ public class UserServiceTest {
     }
 
     static class TestUserServiceException extends RuntimeException{}
-
+*/
     static class MockMailSender implements MailSender{
         private List<String> requests = new ArrayList<String>();
 

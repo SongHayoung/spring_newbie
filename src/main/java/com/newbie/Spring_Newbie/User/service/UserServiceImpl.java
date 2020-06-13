@@ -3,19 +3,17 @@ package com.newbie.Spring_Newbie.User.service;
 import com.newbie.Spring_Newbie.User.dao.UserDao;
 import com.newbie.Spring_Newbie.User.domain.Level;
 import com.newbie.Spring_Newbie.User.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import java.util.List;
 
+@Service("userService")
 public class UserServiceImpl implements UserService {
-    UserDao userDao;
-    private MailSender mailSender;
+    @Autowired UserDao userDao;
+    @Autowired private MailSender mailSender;
     public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
     public static final int MIN_RECCOMEND_FOR_GOLD = 30;
 
