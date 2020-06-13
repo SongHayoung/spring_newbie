@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="spring-oxm-5.2.5.RELEASE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spring-oxm-5.2.5.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
