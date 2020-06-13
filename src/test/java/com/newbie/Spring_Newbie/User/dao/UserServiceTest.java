@@ -1,6 +1,6 @@
 package com.newbie.Spring_Newbie.User.dao;
 
-import com.TestApplicationContext;
+import com.AppContext;
 import com.newbie.Spring_Newbie.User.domain.Level;
 import com.newbie.Spring_Newbie.User.domain.User;
 import com.newbie.Spring_Newbie.User.service.TestUserServiceException;
@@ -12,11 +12,13 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -35,7 +37,8 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestApplicationContext.class)
+@ActiveProfiles("test")
+@ContextConfiguration(classes = AppContext.class)
 public class UserServiceTest {
     @Autowired UserService userService;
     @Autowired UserService testUserService;
@@ -43,6 +46,7 @@ public class UserServiceTest {
     @Autowired MailSender mailSender;
     @Autowired PlatformTransactionManager transactionManager;
     @Autowired ApplicationContext context;
+    @Autowired DefaultListableBeanFactory bf;
     List<User> users;
 
     @Before
@@ -153,6 +157,13 @@ public class UserServiceTest {
         userService.deleteAll();
         userService.add(users.get(0));
         userService.add(users.get(1));
+    }
+
+    @Test
+    public void beans(){
+        for(String n : bf.getBeanDefinitionNames()){
+            System.out.println(n + "\t" + bf.getBean(n).getClass().getName());
+        }
     }
 
     private void checkLevel(User user, boolean upgraded){

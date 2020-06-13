@@ -1,6 +1,6 @@
 package com.newbie.Spring_Newbie.User.dao;
 
-import com.TestApplicationContext;
+import com.AppContext;
 import com.newbie.Spring_Newbie.User.domain.Level;
 import com.newbie.Spring_Newbie.User.domain.User;
 import org.junit.Before;
@@ -13,6 +13,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -26,7 +27,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestApplicationContext.class)
+@ActiveProfiles("test")
+@ContextConfiguration(classes = AppContext.class)
 @EnableTransactionManagement
 public class UserDaoTest {
     @Autowired ApplicationContext context;
